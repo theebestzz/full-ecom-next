@@ -1,4 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
+.breadcrumb-pages {
+  background-image: url("../public/page-header.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.darkbg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0.3;
+}
+
+
+.font-satisfy {
+  font-family: 'Satisfy', cursive;
+}

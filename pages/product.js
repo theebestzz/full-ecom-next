@@ -1,3 +1,5 @@
+import Layout from "@/components/Layout/Layout";
+
 export default function ProductPage() {
-  return <div>ProductPage</div>;
+  return <Layout title={"Product"}>ProductPage</Layout>;
 }

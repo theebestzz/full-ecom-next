@@ -53,7 +53,7 @@ function Slider() {
       <div className="carousel-item">
         <div className="carousel-item-content px-5">
           <Image
-            src="/banner-3.jpg"
+            src="/banner-1.jpg"
             className="object-cover rounded-md"
             width={1200}
             height={1200}
