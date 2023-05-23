@@ -1,6 +1,54 @@
+import { useContext, useState } from "react";
+import { DataContext } from "@/store/GlobalState";
 import Link from "next/link";
+import { postData } from "@/utils/fetchData";
+import Cookie from "js-cookie";
+import { toast } from "react-hot-toast";
 
 function Login() {
+  const initialState = {
+    email: "",
+    password: "",
+  };
+  const [userData, setUserData] = useState(initialState);
+  const { email, password } = userData;
+  const { state, dispatch } = useContext(DataContext);
+  const [loading, setLoading] = useState(false);
+
+  const handleChangeInput = (e) => {
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
+    dispatch({ type: "NOTIFY", payload: {} });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const res = await postData("/auth/login", userData);
+    if (res.err)
+      return dispatch({
+        type: "NOTIFY",
+        payload: { error: toast.error(res.err) },
+      });
+
+    dispatch({
+      type: "NOTIFY",
+      payload: { success: toast.success(res.msg) },
+    });
+    dispatch({
+      type: "AUTH",
+      payload: {
+        token: res.access_token,
+        user: res.user,
+      },
+    });
+    Cookie.set("refreshtoken", res.refresh_token, {
+      path: "/api/auth/accessToken",
+      expires: 7,
+    });
+    localStorage.setItem("firstLogin", true);
+    setLoading(false);
+  };
   return (
     <>
       <div className="flex h-screen bg-gray-50 flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -11,7 +59,7 @@ function Login() {
         </div>
 
         <div className="mt-10 mb-52 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="email"
@@ -23,10 +71,10 @@ function Login() {
                 <input
                   id="email"
                   name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
+                  type="text"
                   className="block w-full rounded-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset px-2 sm:text-sm sm:leading-6"
+                  value={email}
+                  onChange={handleChangeInput}
                 />
               </div>
             </div>
@@ -53,9 +101,9 @@ function Login() {
                   id="password"
                   name="password"
                   type="password"
-                  autoComplete="current-password"
-                  required
                   className="block w-full rounded-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset px-2 sm:text-sm sm:leading-6"
+                  value={password}
+                  onChange={handleChangeInput}
                 />
               </div>
             </div>
