@@ -8,7 +8,7 @@ const CustomIndicator = ({ onClickHandler, isActive }) => {
   return <button className={classes} onClick={onClickHandler} />;
 };
 
-function Slider() {
+function Slider({ sliders }) {
   return (
     <Carousel
       autoPlay={true}
@@ -26,42 +26,21 @@ function Slider() {
         />
       )}
     >
-      <div className="carousel-item">
-        <div className="carousel-item-content px-5">
-          <Image
-            src="/banner-1.jpg"
-            className="object-cover rounded-md"
-            width={1200}
-            height={1200}
-            alt="Banner"
-            priority={true}
-          />
+      {sliders.map((slider) => (
+        <div className="carousel-item" key={slider._id}>
+          <div className="carousel-item-content px-5">
+            <Image
+              src={slider.image}
+              alt={slider.title}
+              title={slider.title}
+              width={1200}
+              height={1200}
+              priority={true}
+              className="object-cover rounded-md"
+            />
+          </div>
         </div>
-      </div>
-      <div className="carousel-item">
-        <div className="carousel-item-content px-5">
-          <Image
-            src="/banner-2.jpg"
-            className="object-cover rounded-md"
-            width={1200}
-            height={1200}
-            alt="Banner"
-            priority={true}
-          />
-        </div>
-      </div>
-      <div className="carousel-item">
-        <div className="carousel-item-content px-5">
-          <Image
-            src="/banner-1.jpg"
-            className="object-cover rounded-md"
-            width={1200}
-            height={1200}
-            alt="Banner"
-            priority={true}
-          />
-        </div>
-      </div>
+      ))}
     </Carousel>
   );
 }

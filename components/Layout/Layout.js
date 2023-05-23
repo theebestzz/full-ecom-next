@@ -27,7 +27,7 @@ function Layout({ children, title, description }) {
           </div>
         </>
       )}
-      <main className="w-full h-screen relative">{children}</main>
+      <main className="w-full relative">{children}</main>
       <Footer />
     </>
   );

@@ -1,10 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Link from "next/link";
 import valid from "@/utils/validation";
 import { DataContext } from "@/store/GlobalState";
 import { toast } from "react-hot-toast";
 import { postData } from "@/utils/fetchData";
 import Loading from "@/components/Utils/Loading";
+import { useRouter } from "next/router";
 
 function Register() {
   const initialState = {
@@ -16,7 +17,9 @@ function Register() {
   const [userData, setUserData] = useState(initialState);
   const { name, email, password, confirmPassword } = userData;
   const { state, dispatch } = useContext(DataContext);
+  const { auth } = state;
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -49,7 +52,11 @@ function Register() {
       payload: { success: toast.success(res.msg) },
     });
     setLoading(false);
+    router.push("/login");
   };
+  useEffect(() => {
+    if (Object.keys(auth).length !== 0) router.push("/");
+  }, [auth]);
   return (
     <div className="flex h-screen bg-gray-50 flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       {loading && <Loading />}

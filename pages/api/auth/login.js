@@ -17,6 +17,9 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    if (!email || !password)
+      return res.status(400).json({ err: "Please add all fields." });
+
     const user = await Users.findOne({ email });
     if (!user) return res.status(400).json({ err: "This user does not exist" });
 

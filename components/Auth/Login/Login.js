@@ -1,9 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DataContext } from "@/store/GlobalState";
 import Link from "next/link";
 import { postData } from "@/utils/fetchData";
 import Cookie from "js-cookie";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
+import Loading from "@/components/Utils/Loading";
 
 function Login() {
   const initialState = {
@@ -13,7 +15,9 @@ function Login() {
   const [userData, setUserData] = useState(initialState);
   const { email, password } = userData;
   const { state, dispatch } = useContext(DataContext);
+  const { auth } = state;
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -23,14 +27,12 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     const res = await postData("/auth/login", userData);
     if (res.err)
       return dispatch({
         type: "NOTIFY",
         payload: { error: toast.error(res.err) },
       });
-
     dispatch({
       type: "NOTIFY",
       payload: { success: toast.success(res.msg) },
@@ -42,16 +44,21 @@ function Login() {
         user: res.user,
       },
     });
+
     Cookie.set("refreshtoken", res.refresh_token, {
       path: "/api/auth/accessToken",
       expires: 7,
     });
     localStorage.setItem("firstLogin", true);
-    setLoading(false);
   };
+
+  useEffect(() => {
+    if (Object.keys(auth).length !== 0) router.push("/");
+  }, [auth]);
   return (
     <>
       <div className="flex h-screen bg-gray-50 flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        {loading && <Loading />}
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Login to your account
