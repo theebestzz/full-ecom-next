@@ -33,7 +33,7 @@ function Header() {
   };
 
   return (
-    <div className="md:sticky top-5 z-10 flex items-center h-24 bg-gray-50 md:rounded-full mb-5 md:m-5 px-5 shadow-lg">
+    <div className="sticky top-0 md:top-5 z-10 flex items-center h-24 bg-gray-50 opacity-95 md:rounded-full mb-5 md:m-5 px-5 shadow-lg">
       <div className="container mx-auto flex justify-between">
         <div className="flex items-center">
           <Link href={"/"} className="text-2xl font-bold">
