@@ -5,6 +5,10 @@ import ProductItem from "@/components/Home/ProductItem";
 
 import { getData } from "@/utils/fetchData";
 import { useState } from "react";
+import PromoSection from "@/components/Home/PromoSection";
+import Categories from "@/components/Home/Categories";
+import Features from "@/components/Home/Features";
+import NewsLetter from "@/components/Home/NewsLetter";
 
 export default function HomePage(props) {
   const [products, setProducts] = useState(props.productProps);
@@ -16,6 +20,10 @@ export default function HomePage(props) {
         <Slider key={sliders._id} sliders={sliders} />
         <Stats />
         <ProductItem key={products._id} products={products} />
+        <PromoSection />
+        <Categories />
+        <Features />
+        <NewsLetter />
       </Layout>
     </>
   );

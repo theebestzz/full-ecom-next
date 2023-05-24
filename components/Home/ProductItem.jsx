@@ -13,7 +13,7 @@ export default function ProductItem({ products }) {
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8500">
           {products.map((product) => (
             <Link
-              href={"/product/" + product.slug}
+              href={"/product/" + product._id}
               key={product._id}
               className="group relative cursor-pointer transition-all ease-in-out duration-500 hover:shadow-2xl rounded-xl shadow-md"
             >
@@ -43,7 +43,7 @@ export default function ProductItem({ products }) {
                   </p>
                   <p className="mt-1 text-sm text-black">
                     {product.inStock > 0 ? (
-                      <span className="text-green-600">
+                      <span className="text-indigo-600">
                         In Stock : {product.inStock}
                       </span>
                     ) : null}
@@ -53,10 +53,11 @@ export default function ProductItem({ products }) {
                   {product.inStock > 0 ? (
                     <>
                       <button
-                        className="bg-green-600 text-white rounded-full w-full h-10 mr-2 flex items-center justify-center text-2xl max-md:mb-5"
+                        className="bg-indigo-600 text-white rounded-full w-full h-10 mr-2 flex items-center justify-center text-2xl max-md:mb-5"
                         title="Add to cart"
                       >
-                        <RiShoppingCart2Line />
+                        <RiShoppingCart2Line />{" "}
+                        <span className="max-sm:flex hidden text-xl ml-2">Add to cart</span>
                       </button>
                       <button
                         className="bg-black text-white rounded-full w-full h-10 mr-2 flex items-center justify-center"
